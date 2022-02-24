@@ -32,9 +32,9 @@ class Program
 
         var Item3 = new RetailSystem.Item();
         Item3.Name = "Talkum";
-        Item3.Price = 0;
-        Item3.Count = 3000; // Pr. gram
-        Item3.KiloPrice = (decimal)19.54;
+        Item3.Price = Item3.KiloPrice*Item3.Count;
+        Item3.Count = 0; 
+        Item3.KiloPrice = (decimal)19.54; // Fix tall ref kg
         Item3.PLU = "C";        
         
         system1.MyShoppingChart.Add(Item1);

@@ -28,22 +28,45 @@ public class RetailSystem
     }
 
 
-    public decimal ShopBasket(List<Item> inputItems) 
+    public List<Item>[] ShopBasket(List<Item> inputItems) 
     {
         decimal NewSum = 0;
+        List<Item> Hansker = new List<Item>();
+        List<Item> Stetoskop = new List<Item>();
+        List<Item> Talkum = new List<Item>();
+
 
 
         foreach (Item item in inputItems)
         {
-            if (item.Price != 0 && item.KiloPrice == 0)
+            Console.WriteLine("Tast inn valg av vare: ");
+            //Console.ReadLine();
+            if (item.PLU == "A")
             {
-                
-
+                Hansker.Add(item);
+                NewSum = NewSum + item.Price;
             }
-
+            else if (item.PLU == "B")
+            {
+                Stetoskop.Add(item);
+                NewSum = NewSum + item.Price;
+            }
+            else if (item.PLU == "C")
+            {
+                Talkum.Add(item);
+                Console.WriteLine("Hvor mange gram Talkum ønsker du?");
+                Console.ReadLine();
+                NewSum = NewSum + item.Price;
+            } else
+            {
+                Console.WriteLine("Din sum er: "+NewSum);
+            }
+            Console.ReadLine();
+            Console.ReadKey();
         }
-
-        return 0;
+        
+        //Console.WriteLine(NewSum);
+        return null;
     }
 }
 
