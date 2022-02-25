@@ -17,7 +17,7 @@ class Program
         RetailSystem system1 = new RetailSystem();   
 
 
-        // PLU-koder for ItemList
+       
 
         Console.WriteLine("Start handel ved å trykke Enter");
 
