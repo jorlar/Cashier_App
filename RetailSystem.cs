@@ -8,6 +8,7 @@ public class RetailSystem
 
     public List<Item> MyShoppingChart { get; set; }
     public decimal Sum { get; set; }
+    public string BasketInfo { get; set; }
 
     public class Item
     {
@@ -28,48 +29,102 @@ public class RetailSystem
     }
 
 
-    public List<Item>[] ShopBasket(List<Item> inputItems) 
-    {
-        decimal NewSum = 0;
-        List<Item> Hansker = new ();
-        List<Item> Stetoskop = new();
-        List<Item> Talkum = new ();
-
-        
-
-        foreach (Item item in inputItems)
+    public void ShopBasket(string inputItem) 
+    {       
+        if (MyShoppingChart == null)
         {
-            Console.WriteLine("Tast inn valg av vare: ");
-            item.PLU = Console.ReadLine();
-            if (item.PLU == "A")
-            {
-                Hansker.Add(item);
-                NewSum = NewSum + item.Price;
-            }
-            else if (item.PLU == "B")
-            {
-                Stetoskop.Add(item);
-                NewSum = NewSum + item.Price;
-            }
-            else if (item.PLU == "C")
-            {
-                Talkum.Add(item);
-                Console.WriteLine("Hvor mange gram Talkum ønsker du?");
-                //Parse result of readline
-                Console.ReadLine();
-                NewSum = NewSum + item.Price;
-            } else
-            {
-                Console.WriteLine(NewSum); 
-            }
-            Console.WriteLine(NewSum);
-            Console.ReadLine();
-            Console.ReadKey();
+            MyShoppingChart = new List<Item>();
+            Sum = 0;
+        }           
+
+
+        if (inputItem == ("A"))
+        {
+            var Item = new RetailSystem.Item();
+            Item.Name = "Gummihansker";
+            Item.Price = (decimal)59.90;
+            Item.Count = 1;
+            Item.IsPair = true;
+            Item.KiloPrice = 0;
+            Item.PLU = "A";    
+            MyShoppingChart.Add(Item);           
         }
-        
-        //Console.WriteLine(NewSum);
-        return null;
-    }
+
+
+        if (inputItem == ("B"))
+        {
+            var Item = new RetailSystem.Item();
+            Item.Name = "Stetoskop";
+            Item.Price = 399;
+            Item.Count = 1;
+            Item.KiloPrice = 0;
+            Item.PLU = "B";       
+            MyShoppingChart.Add(Item);           
+        }
+
+
+        if (inputItem == ("C"))
+        {
+            var Item = new RetailSystem.Item();
+            Item.Name = "Talkum";
+            Item.KiloPrice = (decimal)(float)0.01954; // Fix tall ref kg
+            Item.Price = Item.KiloPrice * Item.Count;
+            Item.Count = 0;           
+            Item.PLU = "C";
+            MyShoppingChart.Add(Item);
+        }
+
+
+        // Tilbuds regle Type A
+        var ProduktA = MyShoppingChart.FirstOrDefault(p => p.PLU == "A"); // Singletone dirkte første produkte av type A in collection
+        var ProduktACollection = from p in MyShoppingChart where p.PLU == "A" select p; // Alle funn av Produkt A i collectin
+
+
+        int AntalProdukterMedRabatt = 0;  
+
+        if (ProduktACollection.Count() > 2)
+        {
+            AntalProdukterMedRabatt = (ProduktACollection.Count()/2);
+        }
+
+
+        BasketInfo = "\n\n Antall Gjenstander tilbud: " + AntalProdukterMedRabatt;
+        BasketInfo += "\n\n"; 
+
+        foreach (Item item in ProduktACollection)
+        {            
+
+            if (AntalProdukterMedRabatt >= 1)
+            {
+                AntalProdukterMedRabatt -= (ProduktACollection.Count()/2);
+                item.Price = 0;               
+            }
+            else
+            {
+                AntalProdukterMedRabatt = 0;
+            }
+        }
+        //
+
+
+        BasketInfo += "\n\n";
+
+        // Summering
+        Sum = 0;
+        foreach (Item item in MyShoppingChart)
+        {
+            BasketInfo += "- " + item.Name + " Pris: "+item.Price +",-   \n\n";
+            Sum += item.Price * item.Count;
+        }
+
+
+        BasketInfo += "\n\n";
+
+        BasketInfo += "Du har nå " + MyShoppingChart.Count() + " gjenstander. Med sum" +
+            Sum.ToString("N2");
+     
+
+}
 }
 
 
