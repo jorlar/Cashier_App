@@ -52,7 +52,8 @@ public class RetailSystem
 
             int AntallTilbud = 0;
             if (ProduktACollection.Count() >= 2)
-                AntallTilbud = ((ProduktACollection.Count() / 2) - ProduktACollectionTilbud.Count());
+                //Console.WriteLine(ProduktACollection.Count());
+            AntallTilbud = ((ProduktACollection.Count() / 2) - ProduktACollectionTilbud.Count());
 
             if (AntallTilbud > 0)
             {
@@ -83,7 +84,7 @@ public class RetailSystem
 
             if (ProduktBCollection.Count() == 3)
                 AntallTilbudB = ((ProduktBCollection.Count()) - ProduktBCollectionTilbud.Count());
-
+            
             if (AntallTilbudB > 0)
             {
                 Item.Price = 999;
@@ -109,37 +110,6 @@ public class RetailSystem
                 Item.PLU = "C";
                 MyShoppingChart.Add(Item);
             }
-
-
-
-
-
-            //int AntalProdukterMedRabatt = 0;  
-
-            //if (ProduktACollection.Count() > 2)
-            //{
-            //    AntalProdukterMedRabatt = (ProduktACollection.Count()/2);
-            //}
-
-
-            //BasketInfo = "\n\n Antall Gjenstander tilbud: " + AntalProdukterMedRabatt;
-            //BasketInfo += "\n\n"; 
-
-            //foreach (Item item in ProduktACollection)
-            //{            
-
-            //    if (AntalProdukterMedRabatt >= 1)
-            //    {
-            //        AntalProdukterMedRabatt -= (ProduktACollection.Count()/2);
-            //        item.Price = 0;               
-            //    }
-            //    else
-            //    {
-            //        AntalProdukterMedRabatt = 0;
-            //    }
-            //}
-            //
-
 
             BasketInfo += "\n\n";
 
