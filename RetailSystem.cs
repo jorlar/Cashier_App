@@ -31,16 +31,16 @@ public class RetailSystem
     public List<Item>[] ShopBasket(List<Item> inputItems) 
     {
         decimal NewSum = 0;
-        List<Item> Hansker = new List<Item>();
-        List<Item> Stetoskop = new List<Item>();
-        List<Item> Talkum = new List<Item>();
+        List<Item> Hansker = new ();
+        List<Item> Stetoskop = new();
+        List<Item> Talkum = new ();
 
-
+        
 
         foreach (Item item in inputItems)
         {
             Console.WriteLine("Tast inn valg av vare: ");
-            //Console.ReadLine();
+            item.PLU = Console.ReadLine();
             if (item.PLU == "A")
             {
                 Hansker.Add(item);
@@ -55,12 +55,14 @@ public class RetailSystem
             {
                 Talkum.Add(item);
                 Console.WriteLine("Hvor mange gram Talkum ønsker du?");
+                //Parse result of readline
                 Console.ReadLine();
                 NewSum = NewSum + item.Price;
             } else
             {
-                Console.WriteLine("Din sum er: "+NewSum);
+                Console.WriteLine(NewSum); 
             }
+            Console.WriteLine(NewSum);
             Console.ReadLine();
             Console.ReadKey();
         }

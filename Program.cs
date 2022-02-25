@@ -34,9 +34,9 @@ class Program
         Item3.Name = "Talkum";
         Item3.Price = Item3.KiloPrice*Item3.Count;
         Item3.Count = 0; 
-        Item3.KiloPrice = (decimal)19.54; // Fix tall ref kg
-        Item3.PLU = "C";        
-        
+        Item3.KiloPrice = (decimal)(float)0.01954; // Fix tall ref kg
+        Item3.PLU = "C";
+
         system1.MyShoppingChart.Add(Item1);
         system1.MyShoppingChart.Add(Item2);
         system1.MyShoppingChart.Add(Item3);
