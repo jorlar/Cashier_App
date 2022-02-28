@@ -16,8 +16,9 @@ class Program
     {
         RetailSystem system1 = new RetailSystem();   
 
+        Random random = new Random();
+        int Antall = 0;
 
-       
 
         Console.WriteLine("Start handel ved å trykke Enter");
 
@@ -25,10 +26,22 @@ class Program
         {
 
             ConsoleKeyInfo cki = Console.ReadKey(true);
-
+            
             string InputKeyInfoString = $"{cki.Key}";
 
-            system1.ShopBasket(InputKeyInfoString);
+         
+            if (InputKeyInfoString != "C")
+            {
+                Antall = 1;
+            }
+            else if (InputKeyInfoString == "C")
+            {
+                Antall = random.Next(52, 1000);
+            }
+
+
+            system1.ShopBasket(InputKeyInfoString, Antall);
+
             Console.WriteLine(InputKeyInfoString);
             Console.WriteLine(system1.BasketInfo);
 

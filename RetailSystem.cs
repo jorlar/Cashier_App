@@ -29,7 +29,7 @@ public class RetailSystem
     }
 
 
-    public void ShopBasket(string inputItem)
+    public void ShopBasket(string inputItem, int Antall)
     {
         if (MyShoppingChart == null)
         {
@@ -39,12 +39,13 @@ public class RetailSystem
 
         BasketInfo = "";
 
-        // Tilbuds regel Type A
-        var ProduktACollection = from p in MyShoppingChart where p.Price != 0 && p.PLU == "A" select p; // Alle funn av Produkt A i collectin
-        var ProduktACollectionTilbud = from p in MyShoppingChart where p.Price == 0 && p.PLU == "A" select p; // Alle funn av Produkt A i collectin
-
+        // Tilbuds regel Type A      
+        
         if (inputItem == ("A"))
         {
+            var ProduktACollection = from p in MyShoppingChart where p.Price != 0 && p.PLU == "A" select p; // Alle funn av Produkt A i collection
+            var ProduktACollectionTilbud = from p in MyShoppingChart where p.Price == 0 && p.PLU == "A" select p; // Alle funn av Produkt A med sum 0,- i collection
+
             var Item = new RetailSystem.Item();
             Item.Name = "Gummihansker";
 
@@ -52,7 +53,6 @@ public class RetailSystem
 
             int AntallTilbud = 0;
             if (ProduktACollection.Count() >= 2)
-                //Console.WriteLine(ProduktACollection.Count());
             AntallTilbud = ((ProduktACollection.Count() / 2) - ProduktACollectionTilbud.Count());
 
             if (AntallTilbud > 0)
@@ -63,67 +63,67 @@ public class RetailSystem
             {
                 Item.Price = (decimal)59.90;
             }
-            Item.Count = 1;
+            Item.Count = Antall;
             Item.IsPair = true;
             Item.KiloPrice = 0;
             Item.PLU = "A";
             MyShoppingChart.Add(Item);
         }
 
-        // Tilbuds regel Type B
-        var ProduktBCollection = from p in MyShoppingChart where p.Price != 0 && p.PLU == "B" select p; // Alle funn av Produkt B i collection
-        var ProduktBCollectionTilbud = from p in MyShoppingChart where p.Price == 999 && p.PLU == "B" select p; // Alle funn av Produkt B i collection
-
-        int AntallTilbudB = 0;
+        // Tilbuds regel Type B        
+     
         if (inputItem == ("B"))
         {
+            var ProduktBCollection = from p in MyShoppingChart where p.Price != 333 && p.PLU == "B" select p; // Alle funn av Produkt B i collection
+
             var Item = new RetailSystem.Item();
             Item.Name = "Stetoskop";
 
-            BasketInfo += ProduktBCollectionTilbud.Count();
-
-            if (ProduktBCollection.Count() == 3)
-                AntallTilbudB = ((ProduktBCollection.Count()) - ProduktBCollectionTilbud.Count());
-            
-            if (AntallTilbudB > 0)
+            if (ProduktBCollection.Count() == 2 || ProduktBCollection.Count() / 3 > 0)
             {
-                Item.Price = 999;
+                foreach (var olditem in ProduktBCollection)
+                {
+                    olditem.Price = 333;
+                }
+                Item.Price = 333;
             }
             else
             {
                 Item.Price = 399;
             }
-                Item.Count = 1;
+                Item.Count = Antall;
                 Item.KiloPrice = 0;
                 Item.PLU = "B";
                 MyShoppingChart.Add(Item);
             }
 
+        // Utregning for produkt C med omgjort kilopris til gram
 
             if (inputItem == ("C"))
             {
                 var Item = new RetailSystem.Item();
-                Item.Name = "Talkum";
-                Item.KiloPrice = (decimal)(float)0.01954; // KG-pris skrevet om til pris pr. Gram
-                Item.Price = Item.KiloPrice * Item.Count;
-                Item.Count = 0;
+                Item.Count = Antall;
+                Item.Name = "Talkum Gram: ";
+                Item.KiloPrice = (decimal)0.01954; // KG-pris skrevet om til pris pr. Gram                
                 Item.PLU = "C";
+                Item.Price = Item.KiloPrice; // kr
                 MyShoppingChart.Add(Item);
             }
 
-            BasketInfo += "\n\n";
+        BasketInfo += "\n\n";
 
-            // Summering
+            // Summering av MyShoppingChart
             Sum = 0;
             foreach (Item item in MyShoppingChart)
             {
-                BasketInfo += "- " + item.Name + " Pris: " + item.Price + ",-   \n\n";
-                Sum += item.Price * item.Count;
+                BasketInfo += "- " + item.Name + "("+item.Count+") Pris: " + (item.Price*item.Count).ToString("N2") + ",-   \n\n";
+                Sum += (int)(item.Price * item.Count);
             }
 
 
             BasketInfo += "\n\n";
 
+            // Output Sum 
             BasketInfo += "Du har nå " + MyShoppingChart.Count() + " gjenstander. Med sum: " +
                 Sum.ToString("N2");
 
